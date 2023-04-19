@@ -1,0 +1,14 @@
+{
+    "exclude": ["node_modules", "**/node_modules/*"],
+    "compilerOptions": {
+      "module": "ES6",
+      "target": "ES6",
+      "strictFunctionTypes": true,
+      "checkJs": true,
+      "moduleResolution": "node16",
+      "allowSyntheticDefaultImports": true,
+      "baseUrl": "./src",
+      "resolveJsonModule": true
+    }
+  }
+  
