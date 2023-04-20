@@ -23,8 +23,8 @@
     ]
   },
   "engines": {
-    "node": ">=16.20.0",
-    "npm": ">=8.19.4"
+    "node": ">=14.15.1",
+    "npm": ">=6.10.0"
   },
   "keywords": [],
   "author": {
@@ -54,6 +54,11 @@
     "serverless-prune-plugin": "^2.0.2",
     "serverless-webpack": "^5.11.0",
     "webpack": "^5.79.0",
+    "webpack-cli": "^5.0.1",
     "webpack-node-externals": "^3.0.0"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1360.0",
+    "uuid": "^9.0.0"
   }
 }

@@ -1,0 +1,115 @@
+service: notes-table-api
+frameworkVersion: "3"
+plugins:
+  - serverless-prune-plugin
+  - serverless-webpack
+package:
+  individually: true
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  architecture: arm64
+  region: ${opt:region, "us-east-1"}
+  stage: ${opt:stage, "dev"}
+  timeout: 30
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/notes-table"
+
+custom:
+  defaults: ${file(./defaults.yml)}
+  tags: ${self:custom.defaults.custom.tags}
+  defaultParams: ${self:custom.defaults.custom.params}
+  service: ${self:custom.defaults.custom.tags.service}
+  base: ${self:service}-${self:provider.stage}
+  webpack:
+    webpackConfig: webpack.config.cjs
+    includeModules:
+      forceExclude:
+        - aws-sdk
+      packagePath: "./package.json"
+    packager: "npm"
+    excludeFiles: src/**/*.test.js
+  # Prune Plugin For Code limit exceeded
+  prune:
+    automatic: true
+    number: 1
+
+  params:
+    ENVIRONMENT: ${self:custom.defaultParams.${self:provider.stage}.ENVIRONMENT}
+
+  dynamo:
+    notes-table: ${self:custom.base}-notes-table
+
+  lambda:
+    base:
+      name: ${self:service}-${self:provider.stage}
+      arn: arn:aws:lambda:${self:provider.region}:#{AWS::AccountId}:function
+    create:
+      name: ${self:custom.lambda.base.name}-create-lambda
+      arn: ${self:custom.lambda.base.arn}:${self:custom.lambda.create.name}
+    read:
+      name: ${self:custom.lambda.base.name}-read-lambda
+      arn: ${self:custom.lambda.base.arn}:${self:custom.lambda.read.name}
+    update:
+      name: ${self:custom.lambda.base.name}-update-lambda
+      arn: ${self:custom.lambda.base.arn}:${self:custom.lambda.update.name}
+    delete:
+      name: ${self:custom.lambda.base.name}-delete-lambda
+      arn: ${self:custom.lambda.base.arn}:${self:custom.lambda.delete.name}
+
+resources:
+  Resources:
+    NotesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.dynamo.notes-table}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+
+functions:
+  create:
+    handler: src/handlers/create.createNote
+    environment:
+      NOTES_TABLE: ${self:custom.dynamo.notes-table}
+    events:
+      - http:
+          path: create
+          method: post
+  read:
+    handler: src/handlers/read.readNote
+    environment:
+      NOTES_TABLE: ${self:custom.dynamo.notes-table}
+    events:
+      - http:
+          path: read/{id}
+          method: get
+  update:
+    handler: src/handlers/update.updateNote
+    environment:
+      NOTES_TABLE: ${self:custom.dynamo.notes-table}
+    events:
+      - http:
+          path: update/{id}
+          method: put
+  delete:
+    handler: src/handlers/delete.deleteNote
+    environment:
+      NOTES_TABLE: ${self:custom.dynamo.notes-table}
+    events:
+      - http:
+          path: delete/{id}
+          method: delete

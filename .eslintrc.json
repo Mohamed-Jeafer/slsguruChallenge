@@ -13,7 +13,7 @@
   ],
   "overrides": [],
   "parserOptions": {
-    "ecmaVersion": 6
+    "ecmaVersion": "latest"
   },
   "plugins": ["prettier", "promise"],
   "rules": {
@@ -31,7 +31,7 @@
     "n/no-unpublished-require": [
       "error",
       {
-        "allowModules": ["serverless-webpack", "eslint-webpack-plugin", "serverless-webpack"],
+        "allowModules": ["eslint-webpack-plugin", "serverless-webpack"],
         "tryExtensions": [".js", ".json", ".node"]
       }
     ],
