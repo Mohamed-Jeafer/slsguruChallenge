@@ -22,7 +22,7 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/notes-table"
+      Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.dynamo.notes-table}"
 
 custom:
   defaults: ${file(./defaults.yml)}

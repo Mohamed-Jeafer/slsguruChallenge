@@ -5,6 +5,13 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "deploy:dev": "npx sls deploy --stage dev",
+    "deploy:test": "npx sls deploy --stage test",
+    "deploy:prod": "npx sls deploy --stage prod",
+    "deploy:create": "npx sls deploy function -f create && npx sls invoke -f create -p ./src/handlers/payloads/create.json --log",
+    "deploy:delete": "npx sls deploy function -f delete && npx sls invoke -f delete -p ./src/handlers/payloads/delete.json --log",
+    "deploy:read": "npx sls deploy function -f read && npx sls invoke -f read -p ./src/handlers/payloads/read.json --log",
+    "deploy:update": "npx sls deploy function -f update && npx sls invoke -f update -p ./src/handlers/payloads/update.json --log",
     "test": "jest --coverage",
     "format": "prettier --write . && eslint . --fix"
   },
@@ -22,6 +29,7 @@
       "./index.js"
     ]
   },
+  "files": [],
   "engines": {
     "node": ">=14.15.1",
     "npm": ">=6.10.0"
@@ -37,6 +45,9 @@
   },
   "homepage": "https://github.com/Mohamed-Jeafer/slsguruChallenge#readme",
   "devDependencies": {
+    "@aws-sdk/client-dynamodb": "^3.316.0",
+    "@aws-sdk/lib-dynamodb": "^3.316.0",
+    "@aws-sdk/util-dynamodb": "^3.316.0",
     "@babel/preset-env": "^7.21.4",
     "@types/jest": "^29.5.0",
     "babel-jest": "^29.5.0",
@@ -58,7 +69,7 @@
     "webpack-node-externals": "^3.0.0"
   },
   "dependencies": {
-    "aws-sdk": "^2.1360.0",
+    "dotenv": "^16.0.3",
     "uuid": "^9.0.0"
   }
 }
