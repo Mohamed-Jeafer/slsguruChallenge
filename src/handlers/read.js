@@ -1,30 +1,42 @@
-import AWS from "aws-sdk";
+// eslint-disable-next-line no-unused-vars
+import * as typedefs from "./models/typedefs.js";
+import { isValidID } from "./utils/validators.js";
+import constants from "./utils/constants.js";
+import { getItem } from "./services/dynamoDB.js";
+const { TABLE_NAME } = constants;
 
-const dynamoDB = new AWS.DynamoDB.DocumentClient();
-
+/**
+ * Read a note
+ * @param {typedefs.event} event
+ * @returns {Promise<typedefs.response>}
+ */
 export const readNote = async (event) => {
-  const { id } = event.pathParameters;
-
-  const params = {
-    TableName: process.env.NOTES_TABLE,
-    Key: { id },
-  };
-
   try {
-    const result = await dynamoDB.get(params).promise();
-
-    if (result.Item) {
+    const { id } = event.pathParameters;
+    if (!isValidID(id)) {
       return {
-        statusCode: 200,
-        body: JSON.stringify(result.Item),
+        statusCode: 400,
+        body: JSON.stringify({ message: "Invalid ID" }),
       };
-    } else {
+    }
+
+    const item = await getItem(TABLE_NAME, { id });
+    if (!item) {
       return {
         statusCode: 404,
         body: JSON.stringify({ message: "Note not found" }),
       };
     }
+
+    {
+      const { title, content } = item;
+      return {
+        statusCode: 200,
+        body: JSON.stringify({ title, content }),
+      };
+    }
   } catch (error) {
+    console.error(error.message);
     return {
       statusCode: 500,
       body: JSON.stringify({ message: "Unable to read notes" }),
