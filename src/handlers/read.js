@@ -1,12 +1,15 @@
 // eslint-disable-next-line no-unused-vars
-import * as typedefs from "./models/typedefs.js";
-import { isValidID } from "./utils/validators.js";
-import constants from "./utils/constants.js";
-import { getItem } from "./services/dynamoDB.js";
+import * as typedefs from "../models/typedefs.js";
+import { isValidID } from "../utils/validators.js";
+import constants from "../utils/constants.js";
+import { getItem } from "../services/dynamoDB.js";
 const { TABLE_NAME } = constants;
 
 /**
- * Read a note
+ * Reads a note
+ * @description  This function is used to read a note from DynamoDB by ID
+ * @async
+ * @function readNote
  * @param {typedefs.event} event
  * @returns {Promise<typedefs.response>}
  */

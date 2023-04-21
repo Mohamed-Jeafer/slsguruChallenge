@@ -1,12 +1,15 @@
 // eslint-disable-next-line no-unused-vars
-import * as typedefs from "./models/typedefs.js";
+import * as typedefs from "../models/typedefs.js";
 import { v4 as uuidv4 } from "uuid";
-import constants from "./utils/constants.js";
-import { createItem } from "./services/dynamoDB.js";
+import constants from "../utils/constants.js";
+import { createItem } from "../services/dynamoDB.js";
 const { TABLE_NAME } = constants;
 
 /**
- * Create a note
+ * Creates a new note.
+ * @description Inserts a new note into the database and returns the note.
+ * @async
+ * @function createNote
  * @param {typedefs.event} event
  * @returns {Promise<typedefs.response>}
  */
