@@ -15,7 +15,6 @@ const unmarshallOptions = {
   wrapNumbers: false, // false, by default.
 };
 
-// Create the DynamoDB document client.
 const ddbDocClient = DynamoDBDocumentClient.from(ddbClient, {
   marshallOptions,
   unmarshallOptions,
