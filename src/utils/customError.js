@@ -13,13 +13,28 @@ const customError = (statusCode, message, source) => {
 };
 
 /**
- * @description Error response function
- * @param {{statusCode: number, message: string, source: string}} error
- * @returns {{statusCode: number, body: string}}
+ * @description Set error status code
+ * @param { object} error - Error object
+ * @param {number} error.statusCode - Status code
+ * @param {string} error.source - Status code
+ * @param {string} error.message - Status code
+ * @returns {void}
  */
-const errorResponse = (error) => {
-  console.error(error.message);
-  // Check error source and set appropriate message
+const setErrorStatusCode = (error) => {
+  if (!error.statusCode || error.statusCode === 500) {
+    error.statusCode = 500;
+    setErrorMessage(error);
+  }
+};
+
+/**
+ * @description Set error message based on source
+ * @param {object} error - Error object
+ * @param {string} error.source - Error source
+ * @param {string} error.message - Error message
+ * @returns {void}
+ */
+const setErrorMessage = (error) => {
   switch (error?.source) {
     case "deleteNote":
       error.message = "Unable to delete note";
@@ -40,17 +55,31 @@ const errorResponse = (error) => {
       error.message = "Something went wrong";
       break;
   }
+};
 
-  // Set default status code to 500 if not specified
-  if (!error.statusCode || error.statusCode === 500) {
-    error.statusCode = 500;
-  }
-
-  // Return standardized response object
+/**
+ * @description Create error response object
+ * @param {object} error - Error object
+ * @param {number} error.statusCode - Status code
+ * @param {string} error.message - Error message
+ * @returns {{statusCode: number, body: string}}
+ */
+const createErrorResponse = (error) => {
   return {
     statusCode: error.statusCode,
     body: JSON.stringify({ message: error.message }),
   };
+};
+
+/**
+ * @description Error response function
+ * @param {{statusCode: number, message: string, source: string}} error
+ * @returns {{statusCode: number, body: string}}
+ */
+const errorResponse = (error) => {
+  console.error(error.message);
+  setErrorStatusCode(error);
+  return createErrorResponse(error);
 };
 
 export { customError, errorResponse };
