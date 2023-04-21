@@ -97,6 +97,14 @@ functions:
       - http:
           path: read/{id}
           method: get
+  readAll:
+    handler: src/handlers/readAll.readAllNotes
+    environment:
+      NOTES_TABLE: ${self:custom.dynamo.notes-table}
+    events:
+      - http:
+          path: readAll
+          method: get
   update:
     handler: src/handlers/update.updateNote
     environment:
