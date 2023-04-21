@@ -3,6 +3,7 @@ import * as typedefs from "../models/typedefs.js";
 import { v4 as uuidv4 } from "uuid";
 import constants from "../utils/constants.js";
 import { createItem } from "../services/dynamoDB.js";
+import { errorResponse } from "../utils/customError.js";
 const { TABLE_NAME } = constants;
 
 /**
@@ -17,7 +18,7 @@ export const createNote = async (event) => {
   try {
     const { title, content } = JSON.parse(event.body);
 
-    const params = {
+    const item = {
       id: uuidv4(),
       title,
       content,
@@ -25,16 +26,14 @@ export const createNote = async (event) => {
       updatedAt: new Date().toISOString(),
     };
 
-    await createItem(TABLE_NAME, params);
+    await createItem(TABLE_NAME, item);
+
     return {
       statusCode: 201,
-      body: JSON.stringify(params),
+      body: JSON.stringify(item),
     };
   } catch (error) {
-    console.error(error.message);
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ message: "Unable to create note" }),
-    };
+    error["source"] = "createNote";
+    return errorResponse(error);
   }
 };

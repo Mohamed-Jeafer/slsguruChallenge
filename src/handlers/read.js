@@ -3,6 +3,7 @@ import * as typedefs from "../models/typedefs.js";
 import { isValidID } from "../utils/validators.js";
 import constants from "../utils/constants.js";
 import { getItem } from "../services/dynamoDB.js";
+import { customError, errorResponse } from "../utils/customError.js";
 const { TABLE_NAME } = constants;
 
 /**
@@ -13,36 +14,26 @@ const { TABLE_NAME } = constants;
  * @param {typedefs.event} event
  * @returns {Promise<typedefs.response>}
  */
+
 export const readNote = async (event) => {
   try {
     const { id } = event.pathParameters;
     if (!isValidID(id)) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ message: "Invalid ID" }),
-      };
+      throw customError(400, "Invalid ID", "readNote");
     }
 
     const item = await getItem(TABLE_NAME, { id });
     if (!item) {
-      return {
-        statusCode: 404,
-        body: JSON.stringify({ message: "Note not found" }),
-      };
+      throw customError(404, "Note not found", "readNote");
     }
 
-    {
-      const { title, content } = item;
-      return {
-        statusCode: 200,
-        body: JSON.stringify({ title, content }),
-      };
-    }
-  } catch (error) {
-    console.error(error.message);
+    const { title, content } = item;
     return {
-      statusCode: 500,
-      body: JSON.stringify({ message: "Unable to read notes" }),
+      statusCode: 200,
+      body: JSON.stringify({ title, content }),
     };
+  } catch (error) {
+    error["source"] = "deleteNote";
+    return errorResponse(error);
   }
 };

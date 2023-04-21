@@ -3,6 +3,7 @@ import * as typedefs from "../models/typedefs.js";
 import { isValidID } from "../utils/validators.js";
 import { deleteItem } from "../services/dynamoDB.js";
 import constants from "../utils/constants.js";
+import { customError, errorResponse } from "../utils/customError.js";
 const { TABLE_NAME } = constants;
 
 /**
@@ -17,21 +18,17 @@ export const deleteNote = async (event) => {
   try {
     const { id } = event.pathParameters;
     if (!isValidID(id)) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ message: "Invalid ID" }),
-      };
+      throw customError(400, "Invalid ID", "deleteNote");
     }
 
     await deleteItem(TABLE_NAME, { id });
+
     return {
       statusCode: 200,
       body: JSON.stringify({ message: "Note deleted successfully" }),
     };
   } catch (error) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ message: "Unable to delete note" }),
-    };
+    error["source"] = "deleteNote";
+    return errorResponse(error);
   }
 };

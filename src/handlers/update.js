@@ -3,6 +3,7 @@ import * as typedefs from "../models/typedefs.js";
 import { isValidID } from "../utils/validators.js";
 import { updateItem } from "../services/dynamoDB.js";
 import constants from "../utils/constants.js";
+import { customError, errorResponse } from "../utils/customError.js";
 const { TABLE_NAME } = constants;
 
 /**
@@ -19,10 +20,7 @@ export const updateNote = async (event) => {
     const { title, content } = JSON.parse(event.body);
 
     if (!isValidID(id)) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ message: "Invalid ID" }),
-      };
+      throw customError(400, "Invalid ID", "updateNote");
     }
 
     const updateExpression = "SET title = :title, content = :content, updatedAt = :updatedAt";
@@ -39,9 +37,7 @@ export const updateNote = async (event) => {
       body: JSON.stringify(result),
     };
   } catch (error) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ message: "Unable to update note" }),
-    };
+    error["source"] = "updateNote";
+    return errorResponse(error);
   }
 };
