@@ -1,10 +1,10 @@
 // @ts-nocheck
 /* global describe, jest, expect, test */
 
-import { deleteNote } from "../../handlers/delete.js";
-import { deleteItem } from "../../services/dynamoDB.js";
+import { deleteNote } from "../../src/handlers/delete.js";
+import { deleteItem } from "../../src/services/dynamoDB.js";
 import { v4 as uuidv4 } from "uuid";
-jest.mock("../../services/dynamoDB.js");
+jest.mock("../../src/services/dynamoDB.js");
 describe("deleteNote", () => {
   test("should return 200", async () => {
     deleteItem.mockResolvedValueOnce(true);

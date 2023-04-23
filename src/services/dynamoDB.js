@@ -14,6 +14,7 @@ import {
   ScanCommand,
 } from "@aws-sdk/client-dynamodb";
 import { unmarshall, marshall } from "@aws-sdk/util-dynamodb";
+import { customError } from "../utils/customError.js";
 
 /**
  * Function to get an item from the DynamoDB table.
@@ -67,22 +68,23 @@ async function createItem(tableName, item) {
  * Function to update an item in the DynamoDB table.
  * @param { string } tableName - Name of the table.
  * @param {{ id: string }} key - Key to be used to get the item.
- * @param { string } updateExpression - Update expression.
- * @param { object } expressionAttributeValues - Expression attribute values.
+ * @param { typedefs.updateParams } updateParams - Update parameters.
  * @returns { Promise<object> } - Returns the updated item.
  * @throws { Error } - Throws an error if the update fails.
  */
-async function updateItem(tableName, key, updateExpression, expressionAttributeValues, returnValues) {
+async function updateItem(tableName, key, updateParams) {
   try {
+    const { UpdateExpression, ExpressionAttributeValues, ReturnValues, ConditionExpression } = updateParams;
     const marshalledKey = marshall(key);
-    const marshalledExpressionAttributeValues = marshall(expressionAttributeValues);
+    const marshalledExpressionAttributeValues = marshall(ExpressionAttributeValues);
 
     const command = {
       TableName: tableName,
       Key: marshalledKey,
-      UpdateExpression: updateExpression,
+      UpdateExpression,
+      ConditionExpression,
       ExpressionAttributeValues: marshalledExpressionAttributeValues,
-      ReturnValues: returnValues,
+      ReturnValues,
     };
 
     const response = await ddbDocClient.send(new UpdateItemCommand(command));
@@ -91,6 +93,9 @@ async function updateItem(tableName, key, updateExpression, expressionAttributeV
     return unmarshalledAttributes;
   } catch (error) {
     console.error(error.message);
+    if (error.message === "The conditional request failed") {
+      throw customError(404, "Item not found", "updateNote");
+    }
     throw error;
   }
 }
@@ -108,12 +113,16 @@ async function deleteItem(tableName, key) {
     const command = {
       TableName: tableName,
       Key: marshalledKey,
+      ConditionExpression: "attribute_exists(id)",
     };
 
     const response = await ddbDocClient.send(new DeleteItemCommand(command));
     return Boolean(response);
   } catch (error) {
     console.error(error.message);
+    if (error.message === "The conditional request failed") {
+      throw customError(404, "Item not found", "deleteNote");
+    }
     throw error;
   }
 }

@@ -1,11 +1,11 @@
 // @ts-nocheck
 /* global jest, describe, expect, test */
 
-import { updateNote } from "../../handlers/update.js";
-import { updateItem } from "../../services/dynamoDB.js";
+import { updateNote } from "../../src/handlers/update.js";
+import { updateItem } from "../../src/services/dynamoDB.js";
 import { v4 as uuidv4 } from "uuid";
 const uuid = uuidv4();
-jest.mock("../../services/dynamoDB.js");
+jest.mock("../../src/services/dynamoDB.js");
 
 describe("updateNote", () => {
   test("should return updated notes successfully", async () => {

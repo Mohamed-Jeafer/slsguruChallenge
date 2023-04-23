@@ -1,12 +1,12 @@
 // @ts-nocheck
 /* global jest, describe, expect, test */
 
-import { readNote } from "../../handlers/read.js";
-import { getItem } from "../../services/dynamoDB.js";
+import { readNote } from "../../src/handlers/read.js";
+import { getItem } from "../../src/services/dynamoDB.js";
 import { v4 as uuidv4 } from "uuid";
 const uuid = uuidv4();
 
-jest.mock("../../services/dynamoDB.js");
+jest.mock("../../src/services/dynamoDB.js");
 describe("readNote", () => {
   test("returns a note", async () => {
     getItem.mockResolvedValue({

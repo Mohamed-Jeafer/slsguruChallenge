@@ -1,7 +1,7 @@
 // @ts-nocheck
 /* global describe, test, expect */
 
-import { ddbDocClient } from "../../services/ddbDocClient.js";
+import { ddbDocClient } from "../../src/services/ddbDocClient.js";
 import { DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
 
 describe("ddbDocClient", () => {

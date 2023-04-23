@@ -20,15 +20,14 @@ export const updateNote = async (event) => {
     validateInput(event, "updateNote");
     const { id } = event.pathParameters;
     const { title, content } = JSON.parse(event.body);
-    const { UpdateExpression, ExpressionAttributeValues, ReturnValues } = setUpdateItemParam(title, content);
-    const result = await updateItem(TABLE_NAME, { id }, UpdateExpression, ExpressionAttributeValues, ReturnValues);
+    const updateParams = setUpdateItemParam(title, content);
+    const result = await updateItem(TABLE_NAME, { id }, updateParams);
     return {
       statusCode: 200,
       body: JSON.stringify(result),
     };
   } catch (error) {
     error["name"] = "updateNote";
-    console.error(error);
     return errorResponse(error);
   }
 };

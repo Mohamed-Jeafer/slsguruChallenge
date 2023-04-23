@@ -6,8 +6,8 @@ import {
   validateDeleteNoteInput,
   validateUpdateNoteInput,
   validateReadNoteInput,
-} from "../../utils/inputValidators.js";
-import { customError } from "../../utils/customError.js";
+} from "../../src/utils/inputValidators.js";
+import { customError } from "../../src/utils/customError.js";
 import { v4 as uuidv4 } from "uuid";
 const uuid = uuidv4();
 describe("validateCreateNoteInput", () => {

@@ -31,4 +31,12 @@
  * @property {string} updatedAt
  */
 
+/**
+ * @typedef { object } updateParams
+ * @property { string } UpdateExpression - Update expression.
+ * @property { object } ExpressionAttributeValues - Expression attribute values.
+ * @property { string } ReturnValues - Return values.
+ * @property { string } ConditionExpression - Condition expression.
+ */
+
 export const unused = {};

@@ -1,11 +1,14 @@
+// eslint-disable-next-line no-unused-vars
+import * as typedefs from "../models/typedefs.js";
+
 /**
  * Set update item param
  * @param {string} title
  * @param {string} content
- * @returns {{UpdateExpression: string, ExpressionAttributeValues: { ":title": string; ":content": string; ":updatedAt": string; }, ReturnValues: string}}
+ * @returns {typedefs.updateParams}
  */
 function setUpdateItemParam(title, content) {
-  const param = {
+  const updateParams = {
     UpdateExpression: "SET title = :title, content = :content, updatedAt = :updatedAt",
     ExpressionAttributeValues: {
       ":title": title,
@@ -13,8 +16,9 @@ function setUpdateItemParam(title, content) {
       ":updatedAt": new Date().toISOString(),
     },
     ReturnValues: "ALL_NEW",
+    ConditionExpression: "attribute_exists(id)",
   };
-  return param;
+  return updateParams;
 }
 
 export { setUpdateItemParam };

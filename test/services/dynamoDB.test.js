@@ -1,8 +1,8 @@
 // @ts-nocheck
 /* global jest, describe, test, expect, beforeEach */
 
-import { ddbDocClient } from "../../services/ddbDocClient.js";
-import { deleteItem, getItem, createItem, getAllItems, updateItem } from "../../services/dynamoDB.js";
+import { ddbDocClient } from "../../src/services/ddbDocClient.js";
+import { deleteItem, getItem, createItem, getAllItems, updateItem } from "../../src/services/dynamoDB.js";
 import {
   GetItemCommand,
   PutItemCommand,
@@ -10,11 +10,12 @@ import {
   DeleteItemCommand,
   ScanCommand,
 } from "@aws-sdk/client-dynamodb";
-import { setUpdateItemParam } from "../../utils/helpers.js";
+import { setUpdateItemParam } from "../../src/utils/helpers.js";
+import { customError } from "../../src/utils/customError.js";
 // write test cases for each function here using describe for all functions, and mock the returned values
 // for each function call
 
-jest.mock("../../services/ddbDocClient.js");
+jest.mock("../../src/services/ddbDocClient.js");
 ddbDocClient.send = jest.fn().mockResolvedValue({});
 
 const mockResponseGetItem = {
@@ -119,6 +120,10 @@ describe("deleteItem", () => {
     ddbDocClient.send = jest.fn().mockRejectedValueOnce(Error("id is not found"));
     expect(deleteItem(tableName, { id })).rejects.toThrow("id is not found");
   });
+  test("should throw an error if item is not found", async () => {
+    ddbDocClient.send = jest.fn().mockRejectedValueOnce(Error("The conditional request failed"));
+    expect(deleteItem(tableName, { id })).rejects.toThrow(customError(404, "Item not found", "updateNote"));
+  });
 });
 describe("getItem", () => {
   beforeEach(() => {
@@ -218,26 +223,34 @@ describe("updateItem", () => {
   });
   test("should return a promise", () => {
     ddbDocClient.send = jest.fn().mockResolvedValueOnce(mockMarshallUpdateItem);
-    const { UpdateExpression, ExpressionAttributeValues, ReturnValues } = setUpdateItemParam("test", "new content");
-    const result = updateItem(tableName, { id }, UpdateExpression, ExpressionAttributeValues, ReturnValues);
+    const updateParams = setUpdateItemParam("test", "new content");
+    const result = updateItem(tableName, { id }, updateParams);
     expect(result).toBeInstanceOf(Promise);
   });
   test("should call UpdateItemCommand", async () => {
     ddbDocClient.send = jest.fn().mockResolvedValueOnce(mockMarshallUpdateItem);
-    const { UpdateExpression, ExpressionAttributeValues, ReturnValues } = setUpdateItemParam("test", "new content");
-    await updateItem(tableName, { id }, UpdateExpression, ExpressionAttributeValues, ReturnValues);
+    const updateParams = setUpdateItemParam("test", "new content");
+    await updateItem(tableName, { id }, updateParams);
     expect(ddbDocClient.send).toHaveBeenCalledTimes(1);
     expect(ddbDocClient.send).toHaveBeenCalledWith(expect.any(UpdateItemCommand));
   });
   test("should return updated item", async () => {
     ddbDocClient.send = jest.fn().mockResolvedValueOnce(mockMarshallUpdateItem);
-    const { UpdateExpression, ExpressionAttributeValues, ReturnValues } = setUpdateItemParam("test", "new content");
-    const result = await updateItem(tableName, { id }, UpdateExpression, ExpressionAttributeValues, ReturnValues);
+    const updateParams = setUpdateItemParam("test", "new content");
+    const result = await updateItem(tableName, { id }, updateParams);
     expect(result).toEqual(mockResponseUpdateItem);
   });
   test("should throw an error if table name is not found", async () => {
     ddbDocClient.send = jest.fn().mockRejectedValueOnce(Error("table name is not found"));
-    expect(updateItem(tableName, { id }, "test", "new content")).rejects.toThrow("table name is not found");
+    const updateParams = setUpdateItemParam("test", "new content");
+    expect(updateItem(tableName, { id }, updateParams)).rejects.toThrow("table name is not found");
+  });
+  test("should throw an error if item is not found", async () => {
+    ddbDocClient.send = jest.fn().mockRejectedValueOnce(Error("The conditional request failed"));
+    const updateParams = setUpdateItemParam("test", "new content");
+    expect(updateItem(tableName, { id }, updateParams)).rejects.toThrow(
+      customError(404, "Item not found", "updateNote")
+    );
   });
 });
 describe("createItem", () => {

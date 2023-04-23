@@ -1,10 +1,10 @@
 // @ts-nocheck
 /* global jest, describe, expect, test */
 
-import { createNote } from "../../handlers/create.js";
-import { createItem } from "../../services/dynamoDB.js";
+import { createNote } from "../../src/handlers/create.js";
+import { createItem } from "../../src/services/dynamoDB.js";
 
-jest.mock("../../services/dynamoDB.js");
+jest.mock("../../src/services/dynamoDB.js");
 
 describe("createNote", () => {
   test("should return 200 and the created note", async () => {

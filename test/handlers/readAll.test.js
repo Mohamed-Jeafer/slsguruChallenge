@@ -1,10 +1,10 @@
 // @ts-nocheck
 /* global jest, describe, expect, test */
 
-import { readAllNotes } from "../../handlers/readAll.js";
-import { getAllItems } from "../../services/dynamoDB.js";
+import { readAllNotes } from "../../src/handlers/readAll.js";
+import { getAllItems } from "../../src/services/dynamoDB.js";
 
-jest.mock("../../services/dynamoDB.js");
+jest.mock("../../src/services/dynamoDB.js");
 
 describe("readAllNotes", () => {
   test("should return all notes", async () => {

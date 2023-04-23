@@ -1,7 +1,7 @@
 // @ts-nocheck
 /* global describe, expect, test */
 
-import { customError, errorResponse } from "../../utils/customError.js";
+import { customError, errorResponse } from "../../src/utils/customError.js";
 
 describe("customError", () => {
   test("should return a custom error", () => {

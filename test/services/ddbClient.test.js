@@ -1,7 +1,7 @@
 // @ts-nocheck
 /* global describe, it, expect */
 
-import { ddbClient } from "../../services/ddbClient.js";
+import { ddbClient } from "../../src/services/ddbClient.js";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 describe("ddbClient", () => {
   it("should be defined", () => {

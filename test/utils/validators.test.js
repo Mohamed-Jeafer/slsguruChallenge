@@ -1,17 +1,17 @@
 // @ts-nocheck
 /* global jest, describe, expect, test */
 
-import { isValidID, validateInput } from "../../utils/validators.js";
+import { isValidID, validateInput } from "../../src/utils/validators.js";
 import { v4 as uuidv4 } from "uuid";
 import {
   validateCreateNoteInput,
   validateDeleteNoteInput,
   validateUpdateNoteInput,
   validateReadNoteInput,
-} from "../../utils/inputValidators.js";
-import { customError } from "../../utils/customError.js";
+} from "../../src/utils/inputValidators.js";
+import { customError } from "../../src/utils/customError.js";
 
-jest.mock("../../utils/inputValidators.js");
+jest.mock("../../src/utils/inputValidators.js");
 
 const uuid = uuidv4();
 describe("isValidID UUID", () => {
