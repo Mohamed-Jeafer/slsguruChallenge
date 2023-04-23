@@ -25,12 +25,12 @@ import { unmarshall, marshall } from "@aws-sdk/util-dynamodb";
 async function getItem(tableName, key) {
   try {
     const marshalledKey = marshall(key);
-    const command = new GetItemCommand({
+    const command = {
       TableName: tableName,
       Key: marshalledKey,
-    });
+    };
 
-    const { Item } = await ddbDocClient.send(command);
+    const { Item } = await ddbDocClient.send(new GetItemCommand(command));
 
     return Item ? unmarshall(Item) : null;
   } catch (error) {
@@ -88,7 +88,6 @@ async function updateItem(tableName, key, updateExpression, expressionAttributeV
     const response = await ddbDocClient.send(new UpdateItemCommand(command));
 
     const unmarshalledAttributes = unmarshall(response.Attributes);
-    console.log(unmarshalledAttributes);
     return unmarshalledAttributes;
   } catch (error) {
     console.error(error.message);

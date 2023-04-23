@@ -4,6 +4,7 @@ import { isValidID } from "../utils/validators.js";
 import { updateItem } from "../services/dynamoDB.js";
 import constants from "../utils/constants.js";
 import { customError, errorResponse } from "../utils/customError.js";
+import { setUpdateItemParam } from "../utils/helpers.js";
 const { TABLE_NAME } = constants;
 
 /**
@@ -23,15 +24,8 @@ export const updateNote = async (event) => {
       throw customError(400, "Invalid ID", "updateNote");
     }
 
-    const updateExpression = "SET title = :title, content = :content, updatedAt = :updatedAt";
-    const ExpressionAttributeValues = {
-      ":title": title,
-      ":content": content,
-      ":updatedAt": new Date().toISOString(),
-    };
-    const ReturnValues = "ALL_NEW";
-
-    const result = await updateItem(TABLE_NAME, { id }, updateExpression, ExpressionAttributeValues, ReturnValues);
+    const { UpdateExpression, ExpressionAttributeValues, ReturnValues } = setUpdateItemParam(title, content);
+    const result = await updateItem(TABLE_NAME, { id }, UpdateExpression, ExpressionAttributeValues, ReturnValues);
     return {
       statusCode: 200,
       body: JSON.stringify(result),
