@@ -1,9 +1,9 @@
 // eslint-disable-next-line no-unused-vars
 import * as typedefs from "../models/typedefs.js";
-import { isValidID } from "../utils/validators.js";
+import { validateInput } from "../utils/validators.js";
 import { deleteItem } from "../services/dynamoDB.js";
 import constants from "../utils/constants.js";
-import { customError, errorResponse } from "../utils/customError.js";
+import { errorResponse } from "../utils/customError.js";
 const { TABLE_NAME } = constants;
 
 /**
@@ -16,11 +16,8 @@ const { TABLE_NAME } = constants;
  */
 export const deleteNote = async (event) => {
   try {
+    validateInput(event, "deleteNote");
     const { id } = event.pathParameters;
-    if (!isValidID(id)) {
-      throw customError(400, "Invalid ID", "deleteNote");
-    }
-
     await deleteItem(TABLE_NAME, { id });
 
     return {

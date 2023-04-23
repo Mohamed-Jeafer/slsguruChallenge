@@ -1,9 +1,9 @@
 // eslint-disable-next-line no-unused-vars
 import * as typedefs from "../models/typedefs.js";
-import { isValidID } from "../utils/validators.js";
+import { validateInput } from "../utils/validators.js";
 import { updateItem } from "../services/dynamoDB.js";
 import constants from "../utils/constants.js";
-import { customError, errorResponse } from "../utils/customError.js";
+import { errorResponse } from "../utils/customError.js";
 import { setUpdateItemParam } from "../utils/helpers.js";
 const { TABLE_NAME } = constants;
 
@@ -17,13 +17,9 @@ const { TABLE_NAME } = constants;
  */
 export const updateNote = async (event) => {
   try {
+    validateInput(event, "updateNote");
     const { id } = event.pathParameters;
     const { title, content } = JSON.parse(event.body);
-
-    if (!isValidID(id)) {
-      throw customError(400, "Invalid ID", "updateNote");
-    }
-
     const { UpdateExpression, ExpressionAttributeValues, ReturnValues } = setUpdateItemParam(title, content);
     const result = await updateItem(TABLE_NAME, { id }, UpdateExpression, ExpressionAttributeValues, ReturnValues);
     return {
@@ -32,6 +28,7 @@ export const updateNote = async (event) => {
     };
   } catch (error) {
     error["source"] = "updateNote";
+    console.error(error);
     return errorResponse(error);
   }
 };

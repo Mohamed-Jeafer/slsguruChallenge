@@ -15,7 +15,7 @@ const { TABLE_NAME } = constants;
 export const readAllNotes = async () => {
   try {
     const items = await getAllItems(TABLE_NAME);
-    if (!items) {
+    if (items.length === 0) {
       throw customError(404, "No items found", "readAllNotes");
     }
 
