@@ -1,7 +1,7 @@
 {
     "queryStringParameters": null,
     "pathParameters": {
-        "id": "e11bb6c9-e437-43dc-8805-12a19e5e1b23"
+        "id": "e3d094f2-58fe-4851-9468-5241eb37b6b1"
     },
-    "body": "{\"title\":\"The Eid Gifts\",\"content\":\"TOYS\"}"
+    "body": "{\"titles\":\"The Eid Gifts\",\"content\":\"TOYS\"}"
 }
