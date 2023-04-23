@@ -30,7 +30,7 @@ export const readNote = async (event) => {
       body: JSON.stringify({ title, content }),
     };
   } catch (error) {
-    error["source"] = "readNote";
+    error["name"] = "readNote";
     return errorResponse(error);
   }
 };

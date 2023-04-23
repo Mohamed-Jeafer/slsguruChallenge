@@ -24,7 +24,7 @@ export const readAllNotes = async () => {
       body: JSON.stringify(items),
     };
   } catch (error) {
-    error["source"] = "readAllNotes";
+    error["name"] = "readAllNotes";
     return errorResponse(error);
   }
 };

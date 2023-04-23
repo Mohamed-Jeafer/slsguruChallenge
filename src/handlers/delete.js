@@ -25,7 +25,7 @@ export const deleteNote = async (event) => {
       body: JSON.stringify({ message: "Note deleted successfully" }),
     };
   } catch (error) {
-    error["source"] = "deleteNote";
+    error["name"] = "deleteNote";
     return errorResponse(error);
   }
 };

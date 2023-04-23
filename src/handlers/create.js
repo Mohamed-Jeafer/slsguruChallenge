@@ -35,7 +35,7 @@ export const createNote = async (event) => {
       body: JSON.stringify({ title: item.title, content: item.content, id: item.id }),
     };
   } catch (error) {
-    error["source"] = "createNote";
+    error["name"] = "createNote";
     return errorResponse(error);
   }
 };

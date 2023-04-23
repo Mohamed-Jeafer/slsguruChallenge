@@ -27,7 +27,7 @@ export const updateNote = async (event) => {
       body: JSON.stringify(result),
     };
   } catch (error) {
-    error["source"] = "updateNote";
+    error["name"] = "updateNote";
     console.error(error);
     return errorResponse(error);
   }

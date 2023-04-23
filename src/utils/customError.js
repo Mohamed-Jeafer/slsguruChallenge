@@ -2,13 +2,13 @@
  * @description Custom error function
  * @param {number} statusCode
  * @param {string} message
- * @param {string} source
+ * @param {string} name
  * @returns {Error}
  */
-const customError = (statusCode, message, source) => {
+const customError = (statusCode, message, name = "Error") => {
   const error = new Error(message);
   error["statusCode"] = statusCode;
-  error["source"] = source;
+  error["name"] = name;
   return error;
 };
 
@@ -16,7 +16,7 @@ const customError = (statusCode, message, source) => {
  * @description Set error status code
  * @param { object} error - Error object
  * @param {number} error.statusCode - Status code
- * @param {string} error.source - Status code
+ * @param {string} error.name - Status code
  * @param {string} error.message - Status code
  * @returns {void}
  */
@@ -28,14 +28,14 @@ const setErrorStatusCode = (error) => {
 };
 
 /**
- * @description Set error message based on source
+ * @description Set error message based on name
  * @param {object} error - Error object
- * @param {string} error.source - Error source
+ * @param {string} error.name - Error name
  * @param {string} error.message - Error message
  * @returns {void}
  */
 const setErrorMessage = (error) => {
-  switch (error?.source) {
+  switch (error?.name) {
     case "deleteNote":
       error.message = "Unable to delete note";
       break;
@@ -73,7 +73,7 @@ const createErrorResponse = (error) => {
 
 /**
  * @description Error response function
- * @param {{statusCode: number, message: string, source: string}} error
+ * @param {{statusCode: number, message: string, name: string}} error
  * @returns {{statusCode: number, body: string}}
  */
 const errorResponse = (error) => {
