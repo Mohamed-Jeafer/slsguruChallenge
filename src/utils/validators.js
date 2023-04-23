@@ -1,3 +1,5 @@
+// eslint-disable-next-line no-unused-vars
+import * as typedefs from "../models/typedefs.js";
 import { customError } from "./customError.js";
 import {
   validateCreateNoteInput,
@@ -16,6 +18,11 @@ function isValidID(uuid) {
   return regex.test(uuid);
 }
 
+/**
+ * This function validates the input.
+ * @param {typedefs.event} event
+ * @param {string} source
+ */
 function validateInput(event, source) {
   switch (source) {
     case "createNote":

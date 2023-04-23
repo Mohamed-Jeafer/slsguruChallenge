@@ -45,7 +45,7 @@ describe("updateNote", () => {
     };
     const result = await updateNote(event);
     expect(result).toHaveProperty("statusCode", 500);
-    expect(JSON.parse(result.body)).toHaveProperty("message", "Unable to update note");
+    expect(JSON.parse(result.body)).toHaveProperty("message", "Unable to update note.");
     expect(updateItem).toHaveBeenCalled();
   });
 
@@ -61,6 +61,6 @@ describe("updateNote", () => {
     };
     const result = await updateNote(event);
     expect(result).toHaveProperty("statusCode", 400);
-    expect(JSON.parse(result.body)).toHaveProperty("message", "Invalid ID");
+    expect(JSON.parse(result.body)).toHaveProperty("message", "Invalid ID.");
   });
 });

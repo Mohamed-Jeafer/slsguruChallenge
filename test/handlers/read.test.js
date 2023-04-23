@@ -46,7 +46,7 @@ describe("readNote", () => {
       },
     });
     const message = JSON.parse(result.body).message;
-    expect(message).toBe("Unable to read note");
+    expect(message).toBe("Unable to read note.");
     expect(result.statusCode).toEqual(500);
   });
 });

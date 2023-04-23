@@ -22,7 +22,7 @@ describe("readAllNotes", () => {
     getAllItems.mockResolvedValue([]);
     const result = await readAllNotes();
     const message = JSON.parse(result.body).message;
-    expect(message).toBe("No items found");
+    expect(message).toBe("No items found.");
     expect(result.statusCode).toEqual(404);
   });
 
@@ -30,7 +30,7 @@ describe("readAllNotes", () => {
     getAllItems.mockRejectedValue(new Error("Database error"));
     const result = await readAllNotes();
     const message = JSON.parse(result.body).message;
-    expect(message).toBe("Unable to retrieve the notes");
+    expect(message).toBe("Unable to retrieve the notes.");
     expect(result.statusCode).toEqual(500);
   });
 });

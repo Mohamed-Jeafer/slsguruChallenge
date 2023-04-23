@@ -37,22 +37,22 @@ const setErrorStatusCode = (error) => {
 const setErrorMessage = (error) => {
   switch (error?.name) {
     case "deleteNote":
-      error.message = "Unable to delete note";
+      error.message = "Unable to delete note.";
       break;
     case "readNote":
-      error.message = "Unable to read note";
+      error.message = "Unable to read note.";
       break;
     case "updateNote":
-      error.message = "Unable to update note";
+      error.message = "Unable to update note.";
       break;
     case "createNote":
-      error.message = "Unable to create note";
+      error.message = "Unable to create note.";
       break;
     case "readAllNotes":
-      error.message = "Unable to retrieve the notes";
+      error.message = "Unable to retrieve the notes.";
       break;
     default:
-      error.message = "Something went wrong";
+      error.message = "Something went wrong, please try again later.";
       break;
   }
 };

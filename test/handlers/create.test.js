@@ -33,7 +33,7 @@ describe("createNote", () => {
     const expected = {
       statusCode: 400,
       body: JSON.stringify({
-        message: "Missing title or content",
+        message: "Missing title or content.",
       }),
     };
 
@@ -52,7 +52,7 @@ describe("createNote", () => {
 
     const result = await createNote(event);
     const message = JSON.parse(result.body).message;
-    expect(message).toBe("Unable to create note");
+    expect(message).toBe("Unable to create note.");
     expect(result.statusCode).toBe(500);
   });
 });

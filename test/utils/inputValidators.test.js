@@ -16,7 +16,7 @@ describe("validateCreateNoteInput", () => {
       title: "title",
       content: "content",
     };
-    expect(() => validateCreateNoteInput(input, "createNote")).toThrow(customError(400, "Missing body", "createNote"));
+    expect(() => validateCreateNoteInput(input, "createNote")).toThrow(customError(400, "Missing body.", "createNote"));
   });
   test("validateCreateNoteInput throw error if title is missing", () => {
     const input = {
@@ -28,7 +28,7 @@ describe("validateCreateNoteInput", () => {
       },
     };
     expect(() => validateCreateNoteInput(input, "createNote")).toThrow(
-      customError(400, "Missing title or content", "createNote")
+      customError(400, "Missing title or content.", "createNote")
     );
   });
 
@@ -42,7 +42,7 @@ describe("validateCreateNoteInput", () => {
       },
     };
     expect(() => validateCreateNoteInput(input, "createNote")).toThrow(
-      customError(400, "Missing title or content", "createNote")
+      customError(400, "Missing title or content.", "createNote")
     );
   });
 });
@@ -55,7 +55,7 @@ describe("validateUpdateNoteInput", () => {
         id: uuid,
       },
     };
-    expect(() => validateUpdateNoteInput(input, "updateNote")).toThrow(customError(400, "Missing body", "updateNote"));
+    expect(() => validateUpdateNoteInput(input, "updateNote")).toThrow(customError(400, "Missing body.", "updateNote"));
   });
 
   test("validateUpdateNoteInput throw error if title is missing", () => {
@@ -68,7 +68,7 @@ describe("validateUpdateNoteInput", () => {
       },
     };
     expect(() => validateUpdateNoteInput(input, "updateNote")).toThrow(
-      customError(400, "Missing title or content", "updateNote")
+      customError(400, "Missing title or content.", "updateNote")
     );
   });
 
@@ -82,7 +82,7 @@ describe("validateUpdateNoteInput", () => {
       },
     };
     expect(() => validateUpdateNoteInput(input, "updateNote")).toThrow(
-      customError(400, "Missing title or content", "updateNote")
+      customError(400, "Missing title or content.", "updateNote")
     );
   });
 
@@ -94,7 +94,7 @@ describe("validateUpdateNoteInput", () => {
       }),
     };
     expect(() => validateUpdateNoteInput(input, "updateNote")).toThrow(
-      customError(400, "Missing pathParameters", "updateNote")
+      customError(400, "Missing path Parameters.", "updateNote")
     );
   });
 });
@@ -106,7 +106,7 @@ describe("validateDeleteNoteInput", () => {
         id: "uuid",
       },
     };
-    expect(() => validateDeleteNoteInput(input, "deleteNote")).toThrow(customError(400, "Invalid ID", "deleteNote"));
+    expect(() => validateDeleteNoteInput(input, "deleteNote")).toThrow(customError(400, "Invalid ID.", "deleteNote"));
   });
   test("validateDeleteNoteInput throw error if pathParams is missing or invalid", () => {
     const input = {
@@ -116,7 +116,7 @@ describe("validateDeleteNoteInput", () => {
       }),
     };
     expect(() => validateDeleteNoteInput(input, "updateNote")).toThrow(
-      customError(400, "Missing pathParameters", "updateNote")
+      customError(400, "Missing path Parameters.", "updateNote")
     );
   });
 });
@@ -128,7 +128,7 @@ describe("validateReadNoteInput", () => {
         id: "uuid",
       },
     };
-    expect(() => validateReadNoteInput(input, "readNote")).toThrow(customError(400, "Invalid ID", "readNote"));
+    expect(() => validateReadNoteInput(input, "readNote")).toThrow(customError(400, "Invalid ID.", "readNote"));
   });
   test("validateReadNoteInput throw error if pathParams is missing or invalid", () => {
     const input = {
@@ -138,7 +138,7 @@ describe("validateReadNoteInput", () => {
       }),
     };
     expect(() => validateReadNoteInput(input, "updateNote")).toThrow(
-      customError(400, "Missing pathParameters", "updateNote")
+      customError(400, "Missing path Parameters.", "updateNote")
     );
   });
 });

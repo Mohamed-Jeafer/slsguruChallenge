@@ -25,7 +25,7 @@ describe("deleteNote", () => {
     };
     const result = await deleteNote(event);
     const message = JSON.parse(result.body).message;
-    expect(message).toBe("Invalid ID");
+    expect(message).toBe("Invalid ID.");
     expect(result.statusCode).toBe(400);
   });
 
@@ -38,7 +38,7 @@ describe("deleteNote", () => {
     };
     const result = await deleteNote(event);
     const message = JSON.parse(result.body).message;
-    expect(message).toBe("Unable to delete note");
+    expect(message).toBe("Unable to delete note.");
     expect(result.statusCode).toBe(500);
   });
 });
