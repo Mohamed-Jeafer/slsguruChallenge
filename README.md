@@ -9,21 +9,21 @@ The requirements for the developed functions can be found in this [code challeng
 
 The developed /create endpoint will create a new note and save it into the Note DynamoDB Table.
 
-The /update/{id} endpoint will update an existing note based on the ID provided.
+The `/update/{id}` endpoint will update an existing note based on the ID provided.
 
-The /read/{id} endpoint will fetch existing notes based on the ID provided.
+The `/read/{id}` endpoint will fetch existing notes based on the ID provided.
 
-The /delete/{id} endpoint will delete an existing note based on the ID provided.
+The `/delete/{id}` endpoint will delete an existing note based on the ID provided.
 
-The /readAll endpoint will fetch all the notes saved in the table.
+The `/readAll` endpoint will fetch all the notes saved in the table.
 
 ## Dependencies
 
 The current developed code does not have any external dependencies.
  Internal dependencies are:
 
-- Node version: \>=14.15.1
-- NPM version: \>=6.10.0
+- Node version: `\>=14.15.1`
+- NPM version: `\>=6.10.0`
 
 The APIs are publicly accessible without VPC constraints, or any other form of authentications.
 
@@ -38,7 +38,7 @@ The APIs are publicly accessible without VPC constraints, or any other form of a
 
 #### create
 
-/create is a POST endpoint does not require and path parameters or query parameters, however, the user will need to provide the following 2 properties in the body:
+`/create` is a POST endpoint does not require and path parameters or query parameters, however, the user will need to provide the following 2 properties in the body:
 
 | **Property Name** | **Definition** |
 | --- | --- |
@@ -47,13 +47,13 @@ The APIs are publicly accessible without VPC constraints, or any other form of a
 
 An error will be thrown if any of the title or content are not provided.
 
-Example request: /create
+Example request: `/create`
 
-{ "body": "{\"title\":\"Shopping List\",\"content\":\"clothes\"}" }
+    { "body": "{\"title\":\"Shopping List\",\"content\":\"clothes\"}" }
 
 #### delete
 
-/delete/{id} is a delete endpoint that requires path parameters to have the ID of the note that is to be deleted.
+`/delete/{id}` is a delete endpoint that requires path parameters to have the ID of the note that is to be deleted.
 
 | **Path Parameter** | **Definition** |
 | --- | --- |
@@ -61,11 +61,11 @@ Example request: /create
 
 An error will be thrown if any of the ID is missing or invalid.
 
-Example request: /delete/e11bb6c9-e437-43dc-8805-12a19e5e1b23
+Example request: `/delete/e11bb6c9-e437-43dc-8805-12a19e5e1b23`
 
 #### update
 
-/update/{id} is a PUT endpoint does require both path parameters and body. The body is required to have both parameters, title and content.
+`/update/{id}` is a PUT endpoint does require both path parameters and body. The body is required to have both parameters, title and content.
 
 | **Property Name** | **Definition** |
 | --- | --- |
@@ -78,13 +78,13 @@ Example request: /delete/e11bb6c9-e437-43dc-8805-12a19e5e1b23
 
 An error will be thrown if any of the title or content are not provided.
 
-Example request: /update/e11bb6c9-e437-43dc-8805-12a19e5e1b23
+Example request: `/update/e11bb6c9-e437-43dc-8805-12a19e5e1b23`
 
-{ "body": "{\"title\":\"new Shopping list\",\"content\":\"new clothes\"}" }
+    { "body": "{\"title\":\"new Shopping list\",\"content\":\"new clothes\"}" }
 
 #### read
 
-/read/{id} is a GET endpoint that requires path parameters to have the ID of the note that is to be fetched.
+`/read/{id}` is a GET endpoint that requires path parameters to have the ID of the note that is to be fetched.
 
 | **Path Parameter** | **Definition** |
 | --- | --- |
@@ -92,15 +92,15 @@ Example request: /update/e11bb6c9-e437-43dc-8805-12a19e5e1b23
 
 An error will be thrown if any of the ID is missing or invalid.
 
-Example request: /read/e11bb6c9-e437-43dc-8805-12a19e5e1b23
+Example request: `/read/e11bb6c9-e437-43dc-8805-12a19e5e1b23`
 
 #### readAll
 
-/readAll/ is a GET endpoint that does not require any params.
+`/readAll/` is a GET endpoint that does not require any params.
 
 An error will be thrown if the table is empty.
 
-Example request: /readAll
+Example request: `/readAll`
 
 ### Response Body Structure:
 
@@ -155,6 +155,7 @@ This response will be returned on the following conditions:
 - Item being deleted is not found.
 - Table not found – incase if the table was accidentally deleted.
 
+such as:
 - Status Code: 404
 - Body: Stringified Object: {"Message":"Item not found "}
 
