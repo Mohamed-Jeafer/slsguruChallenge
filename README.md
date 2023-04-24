@@ -22,8 +22,8 @@ The `/readAll` endpoint will fetch all the notes saved in the table.
 The current developed code does not have any external dependencies.
  Internal dependencies are:
 
-- Node version: `\>=14.15.1`
-- NPM version: `\>=6.10.0`
+- Node version: `>=14.15.1`
+- NPM version: `>=6.10.0`
 
 The APIs are publicly accessible without VPC constraints, or any other form of authentications.
 
@@ -49,7 +49,9 @@ An error will be thrown if any of the title or content are not provided.
 
 Example request: `/create`
 
-    { "body": "{\"title\":\"Shopping List\",\"content\":\"clothes\"}" }
+    {
+        "body": "{\"title\":\"Shopping List\",\"content\":\"clothes\"}"
+    }
 
 #### delete
 
@@ -80,7 +82,9 @@ An error will be thrown if any of the title or content are not provided.
 
 Example request: `/update/e11bb6c9-e437-43dc-8805-12a19e5e1b23`
 
-    { "body": "{\"title\":\"new Shopping list\",\"content\":\"new clothes\"}" }
+    {
+        "body": "{\"title\":\"new Shopping list\",\"content\":\"new clothes\"}"
+    }
 
 #### read
 
@@ -108,23 +112,46 @@ After calling and  **awaiting**  for the API call, it will the following respons
 
 #### Create
 
-    {    "title": "Shopping List",    "content": "Banana",    "id": "35460adf-983d-4673-a59e-fc8484043628"}
+    {
+        "title": "Shopping List",
+        "content": "Banana",
+        "id": "35460adf-983d-4673-a59e-fc8484043628"
+    }
 
 #### Read
 
-    {    "title": "Shopping List",    "content": "Banana"}
+    {
+        "title": "Shopping List",
+        "content": "Banana"
+    }
 
 #### Update
 
-    {    "content": "Oranges",    "createdAt": "2023-04-23T20:29:44.155Z",    "id": "35460adf-983d-4673-a59e-fc8484043628",    "updatedAt": "2023-04-23T20:39:32.297Z",    "title": "New Shopping List"}
+    {
+        "title": "New Shopping List",
+        "content": "Oranges",
+        "createdAt": "2023-04-23T20:29:44.155Z",
+        "id": "35460adf-983d-4673-a59e-fc8484043628",
+        "updatedAt": "2023-04-23T20:39:32.297Z"
+    }
 
 #### Delete
 
-    {    "message": "Note deleted successfully"}
+    {
+        "message": "Note deleted successfully"
+    }
 
 #### ReadAll
 
-    [    {        "content": "Oranges",        "createdAt": "2023-04-23T20:29:44.155Z",        "id": "35460adf-983d-4673-a59e-fc8484043628",        "updatedAt": "2023-04-23T20:39:32.297Z",        "title": "New Shopping List"    }]
+    [
+      {
+        "title": "New Shopping List",
+        "content": "Oranges",
+        "createdAt": "2023-04-23T20:29:44.155Z",
+        "id": "35460adf-983d-4673-a59e-fc8484043628",
+        "updatedAt": "2023-04-23T20:39:32.297Z"
+      }
+    ]
 
 Each of the returned object may contain the following information:
 
