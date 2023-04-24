@@ -1,0 +1,6 @@
+/node_modules
+/.webpack
+/coverage
+/.jest
+test-report.xml
+/coverage
