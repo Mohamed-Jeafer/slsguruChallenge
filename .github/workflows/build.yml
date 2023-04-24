@@ -1,0 +1,43 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - dev
+      - test
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Serverless Framework
+        run: npm install serverless
+
+      - name: Configure AWS credentials
+        run: |
+          echo "export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY" >> $GITHUB_ENV
+          echo "export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID" >> $GITHUB_ENV
+          echo "export AWS_DEFAULT_REGION=us-east-1" >> $GITHUB_ENV
+
+      - name: Install Jest (if needed)
+        if: ${{ github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/test' }}
+        run: npm install jest
+
+      - name: Run tests (if needed)
+        if: ${{ github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/test' }}
+        run: npm run test
+
+      - name: Deploy
+        run: |
+          if [ ${{ github.ref == 'refs/heads/dev' }} = true ]; then
+            npx sls deploy --stage dev
+          elif [ ${{ github.ref == 'refs/heads/test' }} = true ]; then
+            npx sls deploy --stage test
+          else
+            npx sls deploy --stage prod
+          fi
