@@ -7,19 +7,20 @@ The requirements for the developed functions can be found in this [code challeng
 
 ## Features
 
-The developed /create endpoint will create a new note and save it into the Note DynamoDB Table.
-
-The `/update/{id}` endpoint will update an existing note based on the ID provided.
-
-The `/read/{id}` endpoint will fetch existing notes based on the ID provided.
-
-The `/delete/{id}` endpoint will delete an existing note based on the ID provided.
-
-The `/readAll` endpoint will fetch all the notes saved in the table.
+- The developed `/create` endpoint will create a new note and save it into the Note DynamoDB Table.
+- The `/update/{id}` endpoint will update an existing note based on the ID provided.
+- The `/read/{id}` endpoint will fetch existing notes based on the ID provided.
+- The `/delete/{id}` endpoint will delete an existing note based on the ID provided.
+- The `/readAll` endpoint will fetch all the notes saved in the table.
 
 ## Dependencies
 
-The current developed code does not have any external dependencies.
+The current developed code have two type of dependencies, internal and external.
+
+ External Dependencies are:
+
+ - `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` should be saved in GitHub Actions -> Repository secrets
+
  Internal dependencies are:
 
 - Node version: `>=14.15.1`
@@ -30,7 +31,8 @@ The APIs are publicly accessible without VPC constraints, or any other form of a
 ## Getting started
 
 - Run the CI/CD pipeline.
-- Call the API using the endpoints shown in the pipeline.
+
+![CI-CD](https://user-images.githubusercontent.com/34100676/234097633-0310f8c3-1967-4c6e-a0c7-0dfdeb639caa.jpg)
 
 ## How to call Notes API?
 
