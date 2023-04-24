@@ -1,0 +1,51 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - dev
+      - test
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Print AWS access key ID
+        run: |
+          echo "AWS access key ID: ${{ secrets.AWS_ACCESS_KEY_ID }}"
+
+      - name: Install Serverless Framework
+        run: npm install serverless
+
+      - name: Configure AWS credentials
+        run: |
+          export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+          export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+          echo "AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY"
+          echo "AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID"
+          echo "AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION"
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run tests (if needed)
+        if: ${{ github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/test' }}
+        run: npm run test
+
+      - name: Deploy
+        run: |
+          if [ ${{ github.ref == 'refs/heads/dev' }} = true ]; then
+            npx sls deploy --stage dev
+          elif [ ${{ github.ref == 'refs/heads/test' }} = true ]; then
+            npx sls deploy --stage test
+          else
+            npx sls deploy --stage prod
+          fi

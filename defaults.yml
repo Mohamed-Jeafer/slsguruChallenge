@@ -1,0 +1,14 @@
+custom:
+  # tags for resources
+  tags:
+    application: notepad-app
+    service: notepad-api
+    repository: https://github.com/Mohamed-Jeafer/slsguruChallenge
+    environment: ${self:provider.stage}
+  params:
+    dev:
+      ENVIRONMENT: dev
+    test:
+      ENVIRONMENT: test
+    prod:
+      ENVIRONMENT: prod
